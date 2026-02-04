@@ -86,39 +86,58 @@ EXPECTED USAGE
 const result = analyzeScores(scores);
 console.log(result);*/
 
+// analyze.js
 
-function analyzeScores(scoresArray){
-    let excellentCount=0;
-    let passCount=0;
+function analyzeScores(scoresArray) {
+    let excellentCount = 0;
+    let passCount = 0;
     let failCount = 0;
-    let totalScore=0;
-    let validStudents=0;
-    for( let i=0;i<scoresArray.length;i++){
-        let score =Number(scoresArray[i]);
+    let totalScore = 0;
+    let validStudents = 0;
 
-        if(isNaN(score)){
-            continue;
+    for (let i = 0; i < scoresArray.length; i++) {
+        let score = Number(scoresArray[i]);
+
+        if (isNaN(score)) {
+            continue; // skip invalid entries
         }
+
         validStudents++;
         totalScore += score;
-        if(score >=90){
+
+        if (score >= 90) {
             excellentCount++;
-        }
-        else if(score >= 60){
+        } else if (score >= 60) {
             passCount++;
-        }
-        else {
+        } else {
             failCount++;
         }
-
-
     }
+
     let average =
-    validStudents > 0 ? (totalScore / validStudents).toFixed(2) : 0;
+        validStudents > 0 ? (totalScore / validStudents).toFixed(2) : 0;
+
     return {
-    totalStudents: validStudents,
-    excellent: excellentCount,
-      
-    }
+        totalStudents: validStudents,
+        excellent: excellentCount,
+        pass: passCount,
+        fail: failCount,
+        average: average
+    };
 }
 
+// -------- Example usage --------
+const scores = [95, 82, 45, "70", "abc", 100, 60];
+
+const result = analyzeScores(scores);
+
+console.log("Analysis Result:");
+console.log(result);
+
+// -------- Pretty output --------
+console.log("\nSummary:");
+console.log("Total Students:", result.totalStudents);
+console.log("Excellent (>=90):", result.excellent);
+console.log("Pass (60-89):", result.pass);
+console.log("Fail (<60):", result.fail);
+console.log("Average Score:", result.average);
