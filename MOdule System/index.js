@@ -1,6 +1,6 @@
-const ashu = require("./calculator");
+const arith = require("./calculator");
 
-console.log(ashu.sum(2, 3));        // 5
-console.log(ashu.subtract(5, 2));  // 3
-console.log(ashu.multiply(3, 4));  // 12
-console.log(ashu.divide(10, 2));   // 5
+console.log(arith.sum(2, 3));        // 5
+console.log(arith.subtract(10, 2));  // 3
+console.log(arith.multiply(30, 4));  // 12
+console.log(arith.divide(10, 2));   // 5

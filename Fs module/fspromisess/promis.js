@@ -20,9 +20,9 @@ const filepath1= __dirname;
 // ReadFile 
 
 
-// fs.promises.readFile(filePath, "utf-8")
-// .then((data) =>console.log(data))
-// .catch((err)  => console.log("Error encoding file",err));
+fs.promises.readFile(filePath, "utf-8")
+.then((data) =>console.log(data))
+.catch((err)  => console.log("Error encoding file",err));
 
 // Updte file or appendfile 
 
