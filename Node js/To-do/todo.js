@@ -11,8 +11,6 @@ function readTodos() {
   const data = fs.readFileSync(TODO_FILE, "utf-8");
   return JSON.parse(data);
 }
-
-
 // Write todos
 function writeTodos(todos) {
   fs.writeFileSync(TODO_FILE, JSON.stringify(todos, null, 2));
@@ -81,8 +79,6 @@ function deleteTodo(id) {
   writeTodos(updatedTodos);
   console.log("🗑️ Todo deleted!");
 }
-
-
 module.exports = {
   addTodo,
   listTodos,

@@ -30,7 +30,7 @@ const filePath= path.join(__dirname,fileName);
 //  Append file / Update file 
 
 
-//  fs.appendFile(filePath, "\nthis is  updated  data ","utf-8",(err)=>{
+//  fs.appendFile(filePath, "\n this is  updated  data ","utf-8",(err)=>{
 //     if(err) 
 //         console.error(err);
 //     else
