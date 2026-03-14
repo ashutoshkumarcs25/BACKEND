@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Node CRUD App</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    background:white;
+    width:450px;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.inputBox{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+.addBtn{
+    background:#4CAF50;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.addBtn:hover{
+    background:#3e8e41;
+}
+.deleteBtn{
+    background:#ff4d4d;
+    border:none;
+    color:white;
+    padding:6px 10px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.deleteBtn:hover{
+    background:#cc0000;
+}
+ul{
+    list-style:none;
+    padding:0;
+    margin-top:20px;
+}
+
+li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#f7f7f7;
+    padding:10px;
+    margin-top:10px;
+    border-radius:5px;
+}
+
+.deleteBtn{
+    background:#ff4d4d;
+    border:none;
+    color:white;
+    padding:5px 10px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.deleteBtn:hover{
+    background:#cc0000;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📦 Node.js Data Manager</h2>
+
+<div class="inputBox">
+<input type="text" id="dataInput" placeholder="Enter data">
+<button class="addBtn" onclick="addData()">Add</button>
+</div>
+
+<ul id="dataList"></ul>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
