@@ -1,86 +1,51 @@
-const API = "http://localhost:3000/data";
+const container = document.getElementById("students");
 
-async function addData() {
+async function loadStudents() {
+  const res = await fetch("http://localhost:3000/api/students");
 
-    const inputBox = document.getElementById("dataInput");
-    const input = inputBox.value.trim();
+  const students = await res.json();
 
-    if (!input) {
-        alert("Please enter some data");
-        return;
-    }
+  container.innerHTML = "";
 
-    try {
+  students.forEach((student) => {
+    const card = document.createElement("div");
 
-        await fetch(API, {
-            method: "POST",
-            body: input
-        });
+    card.className = "card";
 
-        inputBox.value = "";
+    card.innerHTML = `
+<h3>${student.name}</h3>
+<p>${student.course}</p>
+<p>${student.email}</p>
 
-        loadData();
+<div class="actions">
+<button onclick="deleteStudent(${student.id})">Delete</button>
+</div>
+`;
 
-    } catch (error) {
-        console.log("Error adding data:", error);
-    }
+    container.appendChild(card);
+  });
 }
 
-async function loadData() {
+async function addStudent() {
+  const name = document.getElementById("name").value;
+  const course = document.getElementById("course").value;
+  const email = document.getElementById("email").value;
 
-    try {
+  await fetch("http://localhost:3000/api/students", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, course, email }),
+  });
 
-        const res = await fetch(API);
-        const data = await res.json();
-
-        const list = document.getElementById("dataList");
-        list.innerHTML = "";
-
-        data.forEach(item => {
-
-            const li = document.createElement("li");
-
-            const text = document.createElement("span");
-            text.innerText = `${item.id} : ${item.data}`;
-
-            const delBtn = document.createElement("button");
-            delBtn.innerText = "Delete";
-            delBtn.className = "deleteBtn";
-
-            delBtn.onclick = () => deleteData(item.id);
-
-            li.appendChild(text);
-            li.appendChild(delBtn);
-
-            list.appendChild(li);
-
-        });
-
-    } catch (error) {
-        console.log("Error loading data:", error);
-    }
+  loadStudents();
 }
 
-async function deleteData(id) {
+async function deleteStudent(id) {
+  await fetch(`http://localhost:3000/api/students/${id}`, {
+    method: "DELETE",
+  });
 
-    try {
-
-        await fetch(`${API}?id=${id}`, {
-            method: "DELETE"
-        });
-
-        loadData();
-
-    } catch (error) {
-        console.log("Error deleting data:", error);
-    }
+  loadStudents();
 }
 
-// Allow Enter key to add data
-document.getElementById("dataInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-        addData();
-    }
-});
-
-loadData();
+loadStudents();

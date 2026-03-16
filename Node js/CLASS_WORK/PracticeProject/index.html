@@ -1,118 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<title>Node CRUD App</title>
-
-<style>
-
-body{
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    margin:0;
-    padding:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+  <head>
+    <title>Student ID Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <style>
+    body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 30px;
 }
 
-.container{
-    background:white;
-    width:450px;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+h1 {
+  text-align: center;
 }
 
-h2{
-    text-align:center;
-    margin-bottom:20px;
+.form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
-.inputBox{
-    display:flex;
-    gap:10px;
+input {
+  padding: 8px;
 }
 
-input{
-    flex:1;
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius:5px;
+button {
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
-.addBtn{
-    background:#4CAF50;
-    color:white;
-    border:none;
-    padding:10px 15px;
-    border-radius:5px;
-    cursor:pointer;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
 }
 
-.addBtn:hover{
-    background:#3e8e41;
-}
-.deleteBtn{
-    background:#ff4d4d;
-    border:none;
-    color:white;
-    padding:6px 10px;
-    border-radius:4px;
-    cursor:pointer;
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.deleteBtn:hover{
-    background:#cc0000;
-}
-ul{
-    list-style:none;
-    padding:0;
-    margin-top:20px;
+.card h3 {
+  margin: 0;
 }
 
-li{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#f7f7f7;
-    padding:10px;
-    margin-top:10px;
-    border-radius:5px;
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
 }
+  </style>
+     
+  <body>
+    <h1>Student ID Tracker</h1>
 
-.deleteBtn{
-    background:#ff4d4d;
-    border:none;
-    color:white;
-    padding:5px 10px;
-    border-radius:4px;
-    cursor:pointer;
-}
+    <div class="form">
+      <input id="name" placeholder="Name" />
+      <input id="course" placeholder="Course" />
+      <input id="email" placeholder="Email" />
 
-.deleteBtn:hover{
-    background:#cc0000;
-}
+      <button onclick="addStudent()">Add Student</button>
+    </div>
 
-</style>
-</head>
+    <div id="students" class="grid"></div>
 
-<body>
-
-<div class="container">
-
-<h2>📦 Node.js Data Manager</h2>
-
-<div class="inputBox">
-<input type="text" id="dataInput" placeholder="Enter data">
-<button class="addBtn" onclick="addData()">Add</button>
-</div>
-
-<ul id="dataList"></ul>
-
-</div>
-
-<script src="script.js"></script>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

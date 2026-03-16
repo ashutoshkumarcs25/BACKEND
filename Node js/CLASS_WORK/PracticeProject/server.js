@@ -1,83 +1,102 @@
 const http = require("http");
 const fs = require("fs");
 
+const PORT = 3000;
+const DATA_FILE = "./students.json";
+
+function getStudents() {
+  const data = fs.readFileSync(DATA_FILE);
+  return JSON.parse(data);
+}
+
+function saveStudents(students) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(students, null, 2));
+}
+
 const server = http.createServer((req, res) => {
+  // CORS HEADERS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS",
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    
-    if (req.method === "POST" && req.url === "/data") {
+  // HANDLE PREFLIGHT
+  if (req.method === "OPTIONS") {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
 
-        let body = "";
+  // GET all students
+  if (req.method === "GET" && req.url === "/api/students") {
+    const students = getStudents();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(students));
+  }
 
-        req.on("data", chunk => {
-            body += chunk;
-        });
+  // ADD student
+  else if (req.method === "POST" && req.url === "/api/students") {
+    let body = "";
 
-        req.on("end", () => {
-       
-            fs.readFile("data.json", "utf8", (err, data) => {
-                let arr = JSON.parse(data || "[]");
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
 
-                const newData = {
-                    id: arr.length + 1,
-                    data: body
-                };
+    req.on("end", () => {
+      const newStudent = JSON.parse(body);
 
-                arr.push(newData);
+      const students = getStudents();
 
-                fs.writeFile("data.json", JSON.stringify(arr, null, 2), () => {
-                    res.writeHead(200, {"Content-Type":"application/json"});
-                    res.end(JSON.stringify(newData));
-                });
+      newStudent.id = Date.now();
 
-            });
+      students.push(newStudent);
 
-        });
+      saveStudents(students);
 
-    }
+      res.end(JSON.stringify({ message: "Student added" }));
+    });
+  }
 
-    // GET request
-    else if (req.method === "GET" && req.url === "/data") {
+  // DELETE student
+  else if (req.method === "DELETE") {
+    const id = parseInt(req.url.split("/")[3]);
 
-        fs.readFile("data.json", "utf8", (err, data) => {
-            res.writeHead(200, {"Content-Type":"application/json"});
-            res.end(data);
-        });
+    let students = getStudents();
 
-    }
+    students = students.filter((s) => s.id !== id);
 
-    // DELETE request  /data?id=2
-    else if (req.method === "DELETE" && req.url.startsWith("/data")) {
+    saveStudents(students);
 
-        const url = new URL(req.url, `http://${req.headers.host}`);
-        const id = parseInt(url.searchParams.get("id"));
+    res.end(JSON.stringify({ message: "Deleted" }));
+  }
 
-        fs.readFile("data.json", "utf8", (err, data) => {
+  // EDIT student
+  else if (req.method === "PUT") {
+    const id = parseInt(req.url.split("/")[3]);
 
-            let arr = JSON.parse(data || "[]");
+    let body = "";
 
-            const newArr = arr.filter(item => item.id !== id);
+    req.on("data", (chunk) => (body += chunk));
 
-            fs.writeFile("data.json", JSON.stringify(newArr, null, 2), () => {
+    req.on("end", () => {
+      const updated = JSON.parse(body);
 
-                res.writeHead(200, {"Content-Type":"application/json"});
-                res.end(JSON.stringify({
-                    message: "Data deleted",
-                    id: id
-                }));
+      let students = getStudents();
 
-            });
+      students = students.map((s) => (s.id === id ? { ...s, ...updated } : s));
 
-        });
+      saveStudents(students);
 
-    }
-
-    else {
-        res.writeHead(404, {"Content-Type":"text/plain"});
-        res.end("Route not found");
-    }
-
+      res.end(JSON.stringify({ message: "Updated" }));
+    });
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Not found" }));
+  }
 });
 
-server.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
