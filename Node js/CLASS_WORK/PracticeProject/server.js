@@ -58,7 +58,7 @@ const server = http.createServer((req, res) => {
       res.end(JSON.stringify({ message: "Student added" }));
     });
   }
-
+ 
   // DELETE student
   else if (req.method === "DELETE") {
     const id = parseInt(req.url.split("/")[3]);
